@@ -5,7 +5,7 @@
 
 //program to run GFN2-xTB calculations
 
-std::vector<double>  gfn2_xtb_spe(std::string & molecule, int charge, double Telec ) {
+std::vector<double> gfn2_xtb_opt(std::string & molecule, int charge=0, double Telec=300.0 ) {
   
   //argument 1 to program is the geometry in xyz format
   //argument 2 to program is the charge
@@ -54,31 +54,19 @@ std::vector<double>  gfn2_xtb_spe(std::string & molecule, int charge, double Tel
   
   //SCF
   electron.Calculate(0);
+  BFGSd solve(4,6);
+
+  double energy_threshold = 5.0e-6;
+  double gradient_threshold = 1.0e-3;
+  SolverOpt(electron,solve,4,0,energy_threshold,gradient_threshold);
+
+  std::cout << std::setprecision(10);
+
+  //get the molecule with optimized geometry
+  Molecule Mol2 = electron.Component();
+
+
   //get the partial charges
   std::vector<double> AtmCharge = electron.getQAtoms();
   return AtmCharge ;
-  //get the atom list
-  //std::vector<size_t> atoms = Mol1.Atoms();
-  //size_t Natoms = atoms.size();
-  //AO basis info
-  //std::vector<size_t> AOS = basis.AtomNAOs(atoms);
-  
-  //get the atomic polarizabilities
-  //std::vector<double> polarizabilities;
-  // electron.AtomicPolarizabilities(polarizabilities,AtmCharge);
-  
-  //print
-  /*
-  std::cout << std::setprecision(5) << "\n";
-  //std::cout << "atom       AOs          charge           pol\n";
-  std::cout<<"charge\n";
-  for (size_t idx = 0; idx < Natoms; ++idx) {
-    //std::cout << AtomNr2Symbol(atoms[idx]) << "          ";
-    //std::cout << AOS[idx] << "          ";
-  //  if (AtmCharge[idx] > 0.0) {std::cout << " ";}
-    std::cout << AtmCharge[idx] <<"\n";
-    //<< "          " << polarizabilities[idx] << "\n";
-  }
-  std::cout << "\n";
-  */
 }
