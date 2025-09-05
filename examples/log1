@@ -1,0 +1,22 @@
+3
+
+O      0.0000000     0.0000000    -0.0559861    
+H      0.7744122     0.0000000     0.5156460
+H     -0.7744122     0.0000000     0.5156460
+Charges
+-0.719502
+0.359751
+0.359751
+
+ Performance counter stats for './try':
+
+         7,140,257      cycles                                                                
+         7,359,898      instructions                     #    1.03  insn per cycle            
+           149,028      fp_ret_sse_avx_ops.all                                                
+
+       0.004466245 seconds time elapsed
+
+       0.002231000 seconds user
+       0.002231000 seconds sys
+
+
